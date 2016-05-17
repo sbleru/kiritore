@@ -6,21 +6,23 @@ using System.Collections.Generic;
 
 public class UserAuth : MonoBehaviour {
 
-	private string currentPlayerName;
-	//private LoginMgr login_mgr;
-	private Text error;
-	public bool isError;
+	#region public property
+	public bool isError{ get; set; }
+	#endregion
 
+
+	#region private property
+
+	private string currentPlayerName;
+	private Text error;
+
+	#endregion
+
+
+	#region public method
 	// mobile backendに接続してログイン ------------------------
 
 	public void logIn( string id, string pw ) {
-
-//		try{
-//			NCMBUser.LogInAsync(id,pw);
-//			currentPlayerName = id;
-//		}catch{
-//			
-//		}
 
 		//android実機ではなぜか機能しない例外処理
 		NCMBUser.LogInAsync (id, pw, (NCMBException e) => {
@@ -43,12 +45,6 @@ public class UserAuth : MonoBehaviour {
 		user.UserName = id;
 		user.Email    = mail;
 		user.Password = pw;
-//		try{
-//			user.SignUpAsync();
-//			currentPlayerName = id;
-//		}catch{
-//			
-//		}
 
 		user.SignUpAsync((NCMBException e) => { 
 
@@ -64,13 +60,6 @@ public class UserAuth : MonoBehaviour {
 	// mobile backendに接続してログアウト ------------------------
 
 	public void logOut() {
-
-//		try{
-//			NCMBUser.LogOutAsync();
-//			currentPlayerName = null;
-//		}catch{
-//			
-//		}
 
 		NCMBUser.LogOutAsync ( (NCMBException e) => {
 			if( e == null ){
@@ -108,8 +97,12 @@ public class UserAuth : MonoBehaviour {
 		}
 	}
 
+	#endregion
+
+
+	#region event
 	void Start(){
-		//error = GameObject.Find ("LogInMgr").GetComponent<LoginMgr> ().error.GetComponent<Text>();
 		isError = false;
 	}
+	#endregion
 }

@@ -5,16 +5,18 @@ using System.Collections;
 
 public class ScoreCtrl : MonoBehaviour {
 
+	#region private property
+
 	//スコアをオンラインに保存
 	private NCMB.HighScore highScore;
 	private bool isNewRecord;
 
-	// スコア表示
-	public Text scoreText;
-	// ハイスコアを表示するGUIText
-	public Text highcoreText;
-	// リーダーボード
-	public GameObject leader_board;
+	[SerializeField]
+	private Text score_text;		// スコア表示
+	[SerializeField]
+	private Text highscore_text;	// ハイスコアを表示するGUIText
+	[SerializeField]
+	private GameObject leader_board;	// リーダーボード
 
 	private int high_score;
 
@@ -22,11 +24,18 @@ public class ScoreCtrl : MonoBehaviour {
 	private string highScoreKey = "highScore";
 	private string thistimeScoreKey = "thistimeScore";
 
+	#endregion
+
+
+	#region event
+
 	// Use this for initialization
 	void Start () {
-		Initialize ();
+		SoundMgr.Instance.PlayBGM (SoundMgr.Instance.bgm_title); //プレイ時以外のBGM設定
 
 		// ハイスコアを取得する。保存されてなければ0点。
+		Initialize ();
+
 		//オンライン
 		if(Manager.isOnline){
 			string name = FindObjectOfType<UserAuth>().currentPlayer();
@@ -44,11 +53,16 @@ public class ScoreCtrl : MonoBehaviour {
 				Save();
 			}
 			// スコア・ハイスコアを表示する
-			highcoreText.text = "HIGH : " + high_score;
-			scoreText.text = "SCORE : " + SetValue.total_score;
+			highscore_text.text = "HIGH : " + high_score;
+			score_text.text = "SCORE : " + SetValue.total_score;
 		}
 
 	}
+
+	#endregion
+
+
+	#region private method
 
 	IEnumerator WaitFetch(){
 		yield return new WaitForSeconds (0.5f);
@@ -59,14 +73,12 @@ public class ScoreCtrl : MonoBehaviour {
 			Save ();
 		}
 		// スコア・ハイスコアを表示する
-		highcoreText.text = "HIGH : " + highScore.score;
-		scoreText.text = "SCORE : " + SetValue.total_score;
+		highscore_text.text = "HIGH : " + highScore.score;
+		score_text.text = "SCORE : " + SetValue.total_score;
 	}
 		
 
-	private void Initialize(){
-		// スコアを0に戻す
-//		score = 0;      
+	private void Initialize(){   
 		// フラグを初期化する
 		isNewRecord = false;
 
@@ -75,7 +87,7 @@ public class ScoreCtrl : MonoBehaviour {
 	}
 
 	// ハイスコアの保存
-	public void Save ()
+	private void Save ()
 	{
 		// ハイスコアを保存する（ただし記録の更新があったときだけ）
 		if( isNewRecord )
@@ -90,4 +102,6 @@ public class ScoreCtrl : MonoBehaviour {
 		// ゲーム開始前の状態に戻す
 		Initialize ();
 	}
+
+	#endregion
 }

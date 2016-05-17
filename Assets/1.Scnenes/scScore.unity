@@ -113,8 +113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f128661f515c64d97a26997a0682fe4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 818078103}
-  highcoreText: {fileID: 2083489107}
+  score_text: {fileID: 818078103}
+  highscore_text: {fileID: 2083489107}
   leader_board: {fileID: 2078731887}
 --- !u!4 &92380003
 Transform:
@@ -323,7 +323,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7574dbde08a04619a3c17a4d07a51c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: 6f37f83647e1a1c4e8cae49521915ee9, type: 3}
   scplay: scTitle
   timeText: {fileID: 0}
 --- !u!114 &447457623
@@ -842,7 +841,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7574dbde08a04619a3c17a4d07a51c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: 6f37f83647e1a1c4e8cae49521915ee9, type: 3}
   scplay: LeaderBoard
   timeText: {fileID: 0}
 --- !u!114 &2078731889

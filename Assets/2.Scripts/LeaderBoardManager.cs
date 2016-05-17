@@ -5,10 +5,12 @@ using System.Collections.Generic;
 
 public class LeaderBoardManager : MonoBehaviour {
 
+	#region private property
+
 	private LeaderBoard lBoard;
 	private NCMB.HighScore currentHighScore;
-	public Text[] top = new Text[5];
-	public Text[] nei = new Text[5];
+	private Text[] top = new Text[5];
+	private Text[] nei = new Text[5];
 
 	bool isScoreFetched;
 	bool isRankFetched;
@@ -16,6 +18,11 @@ public class LeaderBoardManager : MonoBehaviour {
 
 	// ボタンが押されると対応する変数がtrueになる
 	private bool backButton;
+
+	#endregion
+
+
+	#region event
 
 	void Start ()
 	{
@@ -73,23 +80,15 @@ public class LeaderBoardManager : MonoBehaviour {
 		}
 	}
 
+	#endregion
+
+
+	#region public method
+
 	public void ToTitle(){
 		Application.LoadLevel("scTitle");
 	}
 
-	/*
-	void OnGUI () {
-		drawMenu();
-		// 戻るボタンが押されたら
-		if( backButton )
-			Application.LoadLevel("scTitle");
-	}
+	#endregion
 
-	private void drawMenu() {
-		// ボタンの設置
-		int btnW = 170, btnH = 30;
-		GUI.skin.button.fontSize = 20;
-		backButton = GUI.Button( new Rect(Screen.width*1/2 - btnW*1/2, Screen.height*7/8 - btnH*1/2, btnW, btnH), "Title" );
-	}
-	*/
 }

@@ -3,91 +3,93 @@ using UnityEngine.UI;
 using System.Collections;
 using NCMB;
 
-public class Manager : MonoBehaviour
-{
+public class Manager : MonoBehaviour {
+
+	#region public static
+
 	//オンラインモード
 	public static bool isOnline;
+
+	#endregion
+
+
+	#region private property
 	//ハイスコア
 	private NCMB.HighScore highScore;
 	//ローカルハイスコア
 	private string highScoreKey = "highScore";
 	int high;
 
-	// タイトル
-	private GameObject title;
 	//ログアウトボタン
+	[SerializeField]
 	private GameObject logout_button;
 	//ログインボタン
+	[SerializeField]
 	private GameObject login_button;
 	//ハイスコアテキスト
-	private GameObject High_Score;
+	[SerializeField]
+	private GameObject high_score;
 	//ランキングボード
+	[SerializeField]
 	private GameObject leader_board;
-	private Text high_score;
 	private int score;
 
 	// User name
-	public Text user_name;
+	[SerializeField]
+	private Text user_name;
 
-	// ボタンが押されると対応する変数がtrueになる
-//	private bool leaderBoardButton;
-//	private bool commentButton;
-	private bool logOutButton;
+	#endregion
+
+
+	#region event
 
 	void Start ()
 	{
-		isOnline = false;
-		logOutButton = false;
-		// Titleゲームオブジェクトを検索し取得する
-		title = GameObject.Find ("Title");
-		logout_button = GameObject.Find ("Logout");
-		login_button = GameObject.Find ("Login");
-		High_Score = GameObject.Find ("HighScore");
-		leader_board = GameObject.Find ("LeaderBoard");
-		high_score = High_Score.GetComponent<Text>();
+		SoundMgr.Instance.PlayBGM (SoundMgr.Instance.bgm_title); //プレイ時以外のBGM設定
 
+		//staticなクラスのメンバ変数の初期化
+		SetValue.initialize ();
+		//ローカルのハイスコアを取得する
+		high = PlayerPrefs.GetInt (highScoreKey, 0);
+		user_name.text = "local";
+
+		isOnline = false;
 		logout_button.SetActive (false);
 		login_button.SetActive (true);
 		leader_board.SetActive (false);
 
-		user_name.text = "local";
-
 		//ログインしていればユーザネームとログアウトボタンを表示 
-		//try{}catch{}:例外処理
-		try{
-			if(FindObjectOfType<UserAuth> ().currentPlayer () != null){
+		//シングルトン化しているかの確認
+		if (FindObjectOfType<UserAuth>() != null) {
+			if (FindObjectOfType<UserAuth> ().currentPlayer () != null) {
+				isOnline = true;
 				user_name.text = FindObjectOfType<UserAuth> ().currentPlayer ();
 				//ハイスコア取得
-				highScore = new NCMB.HighScore( 0, user_name.text );
-				highScore.fetch();
-				
+				highScore = new NCMB.HighScore (0, user_name.text);
+				highScore.fetch ();
 
-				isOnline = true;
 				logout_button.SetActive (true);
-				login_button.SetActive(false);
-				leader_board.SetActive(true);
+				login_button.SetActive (false);
+				leader_board.SetActive (true);
 			}
-		} catch{
 		}
-		StartCoroutine("WaitFetch");
 
 	}
 
-	IEnumerator WaitFetch(){
-		yield return new WaitForSeconds (0.5f);
-
-		if(isOnline){
-			high_score.text = "HighScore:" + highScore.score;
+	void Update(){
+		if (isOnline) {
+			high_score.GetComponent<Text> ().text = "HighScore:" + highScore.score;
 		} else {
-			high = PlayerPrefs.GetInt (highScoreKey, 0);
-			high_score.text = "HighScore:" + high;
+			high_score.GetComponent<Text> ().text = "HighScore:" + high;
 		}
-
 	}
-		
+
+	#endregion
+
+
+	#region public method		
 
 	public void LogOut(){
-		logOutButton = true;
 		FindObjectOfType<UserAuth> ().logOut ();
 
 		//ローカルプレイに切り替える
@@ -98,4 +100,6 @@ public class Manager : MonoBehaviour
 		leader_board.SetActive (false);
 		StartCoroutine("WaitFetch");
 	}
+
+	#endregion
 }

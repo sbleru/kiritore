@@ -3,9 +3,16 @@ using System.Collections.Generic;
 
 public class LeaderBoard {
 
+	#region public property
+
 	public int currentRank = 0;
 	public List<NCMB.HighScore> topRankers = null;
 	public List<NCMB.HighScore> neighbors  = null;
+
+	#endregion
+
+
+	#region public method
 
 	// 現プレイヤーのハイスコアを受けとってランクを取得 ---------------
 	public void fetchRank( int currentScore )
@@ -80,4 +87,6 @@ public class LeaderBoard {
 			}
 		});
 	}
+
+	#endregion
 }

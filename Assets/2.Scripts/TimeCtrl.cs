@@ -3,18 +3,26 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class TimeCtrl : MonoBehaviour {
-	public Text timeText;
-	public string scnext;
+
+	#region private property
+
+	[SerializeField]
+	private Text left_time;
 	PanelRoot panel_root;
-	//public float time = 20;
+
 	private bool isExecuted=false;
 	private bool isStop = false;
 
+	#endregion
+
+
+	#region event
+
 	// Use this for initialization
 	void Start () {
-		panel_root = GameObject.Find ("Center").GetComponent<PanelRoot> ();
+		panel_root = GameObject.FindWithTag ("Root").GetComponent<PanelRoot> ();
 		//float型からint型へCastし、String型に変換して表示
-		timeText.text = ((int)SetValue.time).ToString();
+		left_time.text = ((int)SetValue.time).ToString();
 	}
 	
 	// Update is called once per frame
@@ -22,10 +30,12 @@ public class TimeCtrl : MonoBehaviour {
 		if(isStop == false){
 			//1秒に1ずつ減らしていく
 			SetValue.time -= Time.deltaTime;
+
 			//マイナスは表示しない
 			if (SetValue.time < 0){
 				SetValue.time = 0;
-				panel_root.Return_pos ();
+				panel_root.ReturnPos ();
+
 				if(isExecuted == false){
 					panel_root.CalculateScore ();
 					panel_root.NextScene ();
@@ -33,11 +43,19 @@ public class TimeCtrl : MonoBehaviour {
 				}
 			} 
 		}
-		timeText.text = ((int)SetValue.time).ToString ();
+
+		left_time.text = ((int)SetValue.time).ToString ();
 	}
 
+	#endregion
+
+
+	#region public method
+
 	//answerボタンを押したら時間を止める
-	public void Stop(){
+	public void StopTime(){
 		isStop = true;
 	}
+
+	#endregion
 }
